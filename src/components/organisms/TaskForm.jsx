@@ -5,11 +5,13 @@ import Input from "@/components/atoms/Input"
 import Select from "@/components/atoms/Select"
 import Textarea from "@/components/atoms/Textarea"
 import ApperIcon from "@/components/ApperIcon"
+import ApperFileFieldComponent from "@/components/atoms/FileUploader/ApperFileFieldComponent"
 
 const TaskForm = ({ onAddTask }) => {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [priority, setPriority] = useState("medium")
+  const [files, setFiles] = useState([])
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -40,13 +42,15 @@ await onAddTask({
         priority_c: priority,
         status_c: "active",
         createdAt_c: new Date().toISOString(),
-        completedAt_c: null
+        completedAt_c: null,
+        task_files_c: files
       })
       
-      // Reset form
+// Reset form
       setTitle("")
       setDescription("")
       setPriority("medium")
+      setFiles([])
       setErrors({})
     } catch (error) {
       console.error("Error adding task:", error)
@@ -146,6 +150,27 @@ await onAddTask({
                 />
               </div>
             </div>
+</div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-slate-700">
+              Attachments
+            </label>
+            <ApperFileFieldComponent
+              elementId="task-files"
+              config={{
+                fieldName: 'task_files_c',
+                fieldKey: 'task_files_c',
+                tableName: 'tasks_c',
+                apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+                apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY,
+                existingFiles: files,
+                fileCount: files.length || 0
+              }}
+            />
+            <p className="text-xs text-slate-500">
+              You can attach up to 5 files to this task
+            </p>
           </div>
 
           <div className="flex justify-end pt-4">

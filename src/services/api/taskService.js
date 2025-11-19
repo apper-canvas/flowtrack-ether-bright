@@ -1,5 +1,6 @@
-import { getApperClient } from "@/services/apperClient"
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
+import React from "react";
+import { getApperClient } from "@/services/apperClient";
 
 const tableName = "tasks_c"
 
@@ -12,7 +13,7 @@ export const taskService = {
       }
 
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "Name"}},
           {"field": {"Name": "Tags"}},
@@ -22,6 +23,7 @@ export const taskService = {
           {"field": {"Name": "status_c"}},
           {"field": {"Name": "createdAt_c"}},
           {"field": {"Name": "completedAt_c"}},
+          {"field": {"Name": "task_files_c"}},
           {"field": {"Name": "CreatedOn"}},
           {"field": {"Name": "ModifiedOn"}}
         ],
@@ -51,7 +53,7 @@ export const taskService = {
         throw new Error("ApperClient not initialized")
       }
 
-      const params = {
+const params = {
         fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "Name"}},
@@ -62,6 +64,7 @@ export const taskService = {
           {"field": {"Name": "status_c"}},
           {"field": {"Name": "createdAt_c"}},
           {"field": {"Name": "completedAt_c"}},
+          {"field": {"Name": "task_files_c"}},
           {"field": {"Name": "CreatedOn"}},
           {"field": {"Name": "ModifiedOn"}}
         ]
