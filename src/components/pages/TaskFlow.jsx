@@ -81,18 +81,18 @@ const TaskFlow = () => {
 
     // Apply filter
     if (filter === "active") {
-      filtered = tasks.filter(task => task.status === "active")
+filtered = tasks.filter(task => (task.status_c || task.status) === "active")
     } else if (filter === "completed") {
-      filtered = tasks.filter(task => task.status === "completed")
+      filtered = tasks.filter(task => (task.status_c || task.status) === "completed")
     }
 
     // Apply sort
-    return filtered.sort((a, b) => {
+return filtered.sort((a, b) => {
       if (sortBy === "priority") {
         const priorityOrder = { high: 3, medium: 2, low: 1 }
-        return priorityOrder[b.priority] - priorityOrder[a.priority]
+        return priorityOrder[b.priority_c || b.priority] - priorityOrder[a.priority_c || a.priority]
       } else if (sortBy === "created") {
-        return new Date(b.createdAt) - new Date(a.createdAt)
+        return new Date(b.createdAt_c || b.createdAt || b.CreatedOn) - new Date(a.createdAt_c || a.createdAt || a.CreatedOn)
       }
       return 0
     })
@@ -101,8 +101,8 @@ const TaskFlow = () => {
   const displayTasks = filteredAndSortedTasks()
   const taskStats = {
     total: tasks.length,
-    active: tasks.filter(t => t.status === "active").length,
-    completed: tasks.filter(t => t.status === "completed").length,
+active: tasks.filter(t => (t.status_c || t.status) === "active").length,
+    completed: tasks.filter(t => (t.status_c || t.status) === "completed").length,
   }
 
   if (loading) {
