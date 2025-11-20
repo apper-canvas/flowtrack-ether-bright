@@ -18,30 +18,12 @@ const ApperFileFieldComponent = ({ elementId, config }) => {
   }, [elementId])
 
   // Memoized existingFiles to prevent unnecessary re-renders
-  const memoizedExistingFiles = useMemo(() => {
-    if (!config.existingFiles || !Array.isArray(config.existingFiles)) {
-      return []
-    }
-    
-    // Detect actual changes by comparing length and first file's ID
-    const currentFiles = config.existingFiles
-    const previousFiles = existingFilesRef.current
-    
-    if (currentFiles.length !== previousFiles.length) {
-      return currentFiles
-    }
-    
-    if (currentFiles.length > 0 && previousFiles.length > 0) {
-      const currentFirstId = currentFiles[0]?.Id || currentFiles[0]?.id
-      const previousFirstId = previousFiles[0]?.Id || previousFiles[0]?.id
-      
-      if (currentFirstId !== previousFirstId) {
-        return currentFiles
-      }
-    }
-    
-    return previousFiles
-  }, [config.existingFiles])
+    const memoizedExistingFiles = useMemo(() => {
+      return config.existingFiles || [];
+    }, [
+      config.existingFiles?.length,
+      config.existingFiles?.[0]?.Id || config.existingFiles?.[0]?.id
+    ]);
 
   // Initial Mount Effect
   useEffect(() => {
